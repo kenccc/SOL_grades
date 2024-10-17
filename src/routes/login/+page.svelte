@@ -1,9 +1,5 @@
 <script>
-    import { writable } from 'svelte/store';
-    import { goto } from '@sveltejs/kit/navigation'; // If using SvelteKit
-     // Import the store from a separate file
-
-    loginStore = writable(false);
+    
     let username = '';
     let password = '';
 
@@ -24,10 +20,7 @@
             
             if (result.success) {
                 console.log('Login successful');
-                // Set the login store to true
-                loginStore.set(true);
-                // Redirect to the protected page
-                goto('/');
+                window.location.href = '/';
             } else {
                 console.log('Login failed');
             }
