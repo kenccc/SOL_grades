@@ -5,7 +5,7 @@
 
     export async function handleLogin() {
         try {
-            const response = await fetch('http://127.0.0.1:5000/login', {
+            const response = await fetch('https://zestful-roseanne-fweah-a96f3f59.koyeb.app/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',

@@ -6,7 +6,7 @@
   	let error = null;
 	onMount(async() => {
 		try {
-            const response = await fetch('http://127.0.0.1:5000/get_login', {
+            const response = await fetch('https://zestful-roseanne-fweah-a96f3f59.koyeb.app/get_login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -29,7 +29,7 @@
         }
 		
 		try {
-			const response = await fetch('http://127.0.0.1:5000/api/grades'); // Replace with your actual API URL
+			const response = await fetch('https://zestful-roseanne-fweah-a96f3f59.koyeb.app/api/grades'); // Replace with your actual API URL
 			if (!response.ok) {
 				throw new Error('Network response was not ok');
 			}
@@ -45,7 +45,7 @@
 	async function logout(){
 		let success;
 		try {
-            const response = await fetch('http://127.0.0.1:5000/logout', {
+            const response = await fetch('https://zestful-roseanne-fweah-a96f3f59.koyeb.app/logout', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
