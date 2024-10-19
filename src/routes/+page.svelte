@@ -95,86 +95,71 @@
 </div>
 
 <style>
-/* Color palette */
-:root {
-    --dark-bg: #222831;
-    --medium-dark: #31363F;
-    --accent: #76ABAE;
-    --light-text: #EEEEEE;
-}
+    h1 {
+        text-align: center;
+        color: #333;
+        font-family: 'Arial', sans-serif;
+        margin-bottom: 20px;
+    }
 
-body {
-    margin: 0;
-    font-family: 'Arial', sans-serif;
-    background-color: var(--dark-bg);
-    color: var(--light-text);
-}
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
-}
+    .grades-wrapper {
+        width: 100%;
+        max-width: 600px;
+        background-color: #fff;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease-in-out;
+    }
 
-h1 {
-    text-align: center;
-    color: var(--accent);
-    font-size: 2.5rem;
-    margin-bottom: 2rem;
-}
+    .grades-wrapper:hover {
+        transform: translateY(-5px);
+    }
 
-/* Change the grades-wrapper to use grid layout */
-.grades-wrapper {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 equal columns */
-    gap: 1rem; /* Space between containers */
-    justify-content: space-between; /* Distribute space evenly between items */
-}
+    .grades-container {
+        text-align: left;
+        font-family: 'Arial', sans-serif;
+    }
 
-.grades-container {
-    background-color: var(--medium-dark);
-    padding: 1.5rem;
-    border-radius: 8px;
-    box-sizing: border-box;
-}
+    h3 {
+        color: #444;
+        font-size: 1.2em;
+        margin-bottom: 10px;
+    }
 
-h3 {
-    color: var(--accent);
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
-}
+    p {
+        margin: 5px 0;
+        font-size: 1em;
+        color: #666;
+    }
 
-p {
-    font-size: 1rem;
-    margin: 0.3rem 0;
-}
+    b {
+        color: #333;
+    }
 
-b {
-    color: var(--accent);
-}
+    .logout-btn {
+        padding: 10px 20px;
+        background-color: #ff4d4d;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 1em;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
 
-button {
-    display: block;
-    width: 100%;
-    padding: 1rem;
-    margin-top: 1.5rem;
-    border: none;
-    border-radius: 8px;
-    background-color: var(--accent);
-    color: var(--dark-bg);
-    font-size: 1.2rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: var(--light-text);
-    color: var(--dark-bg);
-}
-
-p {
-    text-align: center;
-    color: var(--light-text);
-    font-size: 1.2rem;
-}
+    .logout-btn:hover {
+        background-color: #e60000;
+    }
 </style>
