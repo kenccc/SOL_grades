@@ -40,32 +40,48 @@ def scrape_data(username, password): #insert ur password here
         
         if response.status_code == 200:
             html_content = response.text
-            soup = BeautifulSoup(html_content, 'lxml')
-            allsubject = soup.find_all('tr', {'class': 'ig_Alt igtbl_Alt'})
-            subjects = []
-            for i in range(len(allsubject) - 1):
-                arr = allsubject[i + 1].find_all('td')
-                arr = arr[:len(arr) - 3]
-                for x in range(len(arr)):
-                    if arr[x].text == '\xa0':
-                        arr[x] = []
-                    elif arr[x].text == '<td> </td>':
-                        arr[x] = []
+
+
+
+            soup = BeautifulSoup(html_content, 'html.parser')
+
+            # Selecting rows from the table body (adjust the selector according to your actual HTML structure)
+            rows = soup.select("tr")
+
+            grades_data = []
+
+            for row in rows[2:]:  # Assuming the first two rows are headers, skip them
+                columns = row.find_all("td")
+                
+                if len(columns) < 6:  # Skip rows that don't have the expected number of columns (subject + 5 weights)
+                    continue
+                
+                subject_name = columns[0].get_text(strip=True)  # Get the subject name from the first column
+                
+                weights = []
+                for i in range(1, 6):  # Process the next 5 columns (weights/grades)
+                    grade_text = columns[i].get_text(strip=True)
+                    if grade_text == "-" or not grade_text:
+                        weights.append([])  # Empty array for missing grades
                     else:
-                        if x == 0:
-                            arr[x] = arr[x].text
-                        else:
-                            grades = arr[x].text.split()
-                            for y in range(len(grades)):
-                                if grades[y] == '-':
-                                    grades.remove(grades[y])
-                                else:
-                                    grades[y] = int(grades[y])
-                            arr[x] = grades
-                subjects.append(arr)
+                        try:
+                            weights.append([int(grade_text)])  # Convert grade to an integer and wrap in a list
+                        except ValueError:
+                            weights.append([])  # Fallback in case of non-numeric values
+                
+                grades_data.append([subject_name] + weights)
+            for i in range(4):
+                grades_data.remove(grades_data[0])
+            for i in range(2):
+                grades_data.remove(grades_data[-1])
+            # Display the structured grades data
+            
+            subjects=grades_data
 
             for z in range(len(subjects)):
                 subject_name = unicodedata.normalize('NFKD', subjects[z][0]).encode('ascii', 'ignore').decode('utf-8')
+                subjects[z][0] = subject_name
+                
                 weight_10 = subjects[z][1] or []
                 weight_8 = subjects[z][2] or []
                 weight_6 = subjects[z][3] or []
@@ -109,7 +125,7 @@ def scrape_data(username, password): #insert ur password here
             return subjects
 
     return []
-
+print(scrape_data("KenV","KenPorg2010"))
 loggedIn = False
 loggedInSOL = False
 @app.route('/api/grades', methods=['GET'])
@@ -120,6 +136,11 @@ def get_grades():
         return jsonify(data)
     else:
         return jsonify({'success': False})
+@app.route('/api/test_grades', methods=['GET'])
+@cross_origin()
+def test_get_grades():
+    data = scrape_data(str(os.getenv("USERBRRR")),os.getenv("PASSWORD"))
+    return jsonify(data)
 
 @app.route('/login', methods=['POST','GET'])
 @cross_origin()
