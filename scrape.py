@@ -153,6 +153,11 @@ def login_SOL():
 @cross_origin()
 def logout():
     global loggedInSOL
+    global SOLusername
+    global SOLpassword
+    loggedInSOL = False
+    SOLusername = ""
+    SOLpassword = ""
     loggedInSOL = False
     return jsonify({'success': True})
 
