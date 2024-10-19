@@ -125,12 +125,14 @@ def scrape_data(username, password): #insert ur password here
             return subjects
 
     return []
-print(scrape_data("KenV","KenPorg2010"))
 loggedIn = False
 loggedInSOL = False
+SOL_username = ""
+SOL_password = ""
 @app.route('/api/grades', methods=['GET'])
 @cross_origin()
 def get_grades():
+
     if loggedInSOL:
         data = scrape_data(SOLusername, SOLpassword)
         return jsonify(data)
@@ -179,7 +181,6 @@ def logout():
     loggedInSOL = False
     SOLusername = ""
     SOLpassword = ""
-    loggedInSOL = False
     return jsonify({'success': True})
 
 @app.route('/get_login', methods = ['POST','GET'])
