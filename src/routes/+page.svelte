@@ -70,7 +70,7 @@
         
         if (result.success) {
             console.log('Logout successful');
-            window.location.replace ('/login') ;
+            window.location.replace('/login') ;
         } else {
             console.log('Logout failed');
         }
@@ -102,7 +102,6 @@
 	{:else}
 	<p>Loading...</p>
 	{/if}
-	<button on:click={logout}>Logout</button>
 </div>
 
 <style>
