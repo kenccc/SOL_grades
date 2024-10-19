@@ -29,8 +29,8 @@ def log_in_sol(user: str, password: str) -> bool:
     return postLogin.status_code == 200
 
 def scrape_data():
-    username = 'smth'
-    password = 'smth'
+    username = 'smth' #insert ur username here
+    password = 'smth' #insert ur password here
 
     if log_in_sol(username, password):
         base_url = "https://aplikace.skolaonline.cz"
@@ -43,7 +43,7 @@ def scrape_data():
             subjects = []
             for i in range(len(allsubject) - 1):
                 arr = allsubject[i + 1].find_all('td')
-                arr = arr[:len(arr) - 2]
+                arr = arr[:len(arr) - 3]
                 for x in range(len(arr)):
                     if arr[x].text == '\xa0':
                         arr[x] = []
@@ -103,8 +103,9 @@ def scrape_data():
                     weighted_average = weighted_average / to_divide
 
                 subjects[z].append(weighted_average)
-
+            
             return subjects
+
     return []
 
 
@@ -113,17 +114,31 @@ def scrape_data():
 def get_grades():
     data = scrape_data()
     return jsonify(data)
-
+loggedIn = False
 @app.route('/login', methods=['POST','GET'])
 @cross_origin()
 def login():
     username = request.form['username']
     password = request.form['password']
-
+    global loggedIn
     if username == "admin" and password == "admin":
+        loggedIn = True
         return jsonify({'success': True})
     else:
+        loggedIn = False
         return jsonify({'success': False})
+@app.route('/logout', methods = ['POST', 'GET'])
+@cross_origin()
+def logout():
+    global loggedIn
+    loggedIn = False
+    return jsonify({'success': True})
+
+@app.route('/get_login', methods = ['POST','GET'])
+@cross_origin()
+def get_login():
+    global loggedIn
+    return jsonify({'loggedIn': loggedIn})
 
 if __name__ == '__main__':
     app.run(debug=True)
