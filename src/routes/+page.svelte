@@ -1,11 +1,13 @@
 <script>
-    import { onMount } from "svelte";
+    import { onMount, onDestroy } from "svelte";
 	let loggedIn;
 	let data;
 	export let grades = []; 
   	let error = null;
 	onMount(async() => {
+
 		try {
+            
             const response = await fetch('https://zestful-roseanne-fweah-a96f3f59.koyeb.app/get_login', {
                 method: 'POST',
                 headers: {
@@ -34,39 +36,48 @@
 				throw new Error('Network response was not ok');
 			}
 			grades = await response.json(); 
+            if (grades.success == 'false'){
+                alert("User not logged in")
+            }
 			console.log(grades)
 			
 	  	} 
 	  	catch (err) {
 			error = err.message; 
 	  	}	
-
+        const handleBeforeUnload = (event) => {
+                logout();
+        };
+        window.addEventListener('beforeunload', handleBeforeUnload);
+        onDestroy(() => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        });
 	});
 	async function logout(){
 		let success;
-		try {
-            const response = await fetch('https://zestful-roseanne-fweah-a96f3f59.koyeb.app/logout', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: new URLSearchParams({
-                    success: success
-                }),
-            });
-            
-            const result = await response.json();
-            
-            if (result.success) {
-                console.log('Logout successful');
-				window.location.href = '/login'
-            } else {
-                console.log('Logout failed');
-            }
-        } catch (error) {
-            console.error('Error during logout:', error);
+	
+        const response = await fetch('https://zestful-roseanne-fweah-a96f3f59.koyeb.app/logout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({
+                success: success
+            }),
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            console.log('Logout successful');
+            window.location.replace ('/login') ;
+        } else {
+            console.log('Logout failed');
         }
+        
+        
 	}
+    
 </script>
 
 

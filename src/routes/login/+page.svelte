@@ -5,7 +5,7 @@
 
     export async function handleLogin() {
         try {
-            const response = await fetch('https://zestful-roseanne-fweah-a96f3f59.koyeb.app/login', {
+            const response = await fetch('https://zestful-roseanne-fweah-a96f3f59.koyeb.app/login_sol', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',

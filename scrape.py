@@ -31,9 +31,7 @@ def log_in_sol(user: str, password: str) -> bool:
     postLogin = session.post(url, data=data)
     return postLogin.status_code == 200
 
-def scrape_data():
-    username = str(os.getenv("USERBRRR")) #insert ur username here
-    password = str(os.getenv("PASSWORD")) #insert ur password here
+def scrape_data(username, password): #insert ur password here
     print(username)
     print(password)
     if log_in_sol(username, password):
@@ -112,13 +110,17 @@ def scrape_data():
 
     return []
 
-
+loggedIn = False
+loggedInSOL = False
 @app.route('/api/grades', methods=['GET'])
 @cross_origin()
 def get_grades():
-    data = scrape_data()
-    return jsonify(data)
-loggedIn = False
+    if loggedInSOL:
+        data = scrape_data(SOLusername, SOLpassword)
+        return jsonify(data)
+    else:
+        return jsonify({'success': False})
+
 @app.route('/login', methods=['POST','GET'])
 @cross_origin()
 def login():
@@ -131,18 +133,34 @@ def login():
     else:
         loggedIn = False
         return jsonify({'success': False})
+    
+@app.route('/login_sol', methods=['POST','GET'])
+@cross_origin()
+def login_SOL():
+    global SOLusername
+    global SOLpassword
+    global loggedInSOL
+    SOLusername = request.form['username']
+    SOLpassword = request.form['password']
+    if SOLusername != "" and SOLpassword != "":
+        loggedInSOL = True
+        return jsonify({'success': True})
+    else:
+        loggedInSOL = False
+        return jsonify({'success': False})
+    
 @app.route('/logout', methods = ['POST', 'GET'])
 @cross_origin()
 def logout():
-    global loggedIn
-    loggedIn = False
+    global loggedInSOL
+    loggedInSOL = False
     return jsonify({'success': True})
 
 @app.route('/get_login', methods = ['POST','GET'])
 @cross_origin()
 def get_login():
-    global loggedIn
-    return jsonify({'loggedIn': loggedIn})
+    global loggedInSOL
+    return jsonify({'loggedIn': loggedInSOL})
 
 if __name__ == '__main__':
     app.run(debug=True)
