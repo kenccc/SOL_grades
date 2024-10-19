@@ -1,6 +1,9 @@
 from flask import Flask, jsonify,request
 import unicodedata
 import requests
+import os
+from dotenv import load_dotenv, dotenv_values 
+load_dotenv() 
 from bs4 import BeautifulSoup
 from flask_cors import CORS 
 from flask_cors import cross_origin
@@ -29,9 +32,10 @@ def log_in_sol(user: str, password: str) -> bool:
     return postLogin.status_code == 200
 
 def scrape_data():
-    username = 'smth' #insert ur username here
-    password = 'smth' #insert ur password here
-
+    username = str(os.getenv("USERBRRR")) #insert ur username here
+    password = str(os.getenv("PASSWORD")) #insert ur password here
+    print(username)
+    print(password)
     if log_in_sol(username, password):
         base_url = "https://aplikace.skolaonline.cz"
         response = session.get(base_url + "/SOL/App/Hodnoceni/KZH001_HodnVypisStud.aspx#")
